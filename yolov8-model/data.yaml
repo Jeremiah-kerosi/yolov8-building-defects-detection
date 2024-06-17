@@ -1,0 +1,13 @@
+train: /kaggle/input/dataset/train
+test: /kaggle/input/dataset/test
+val: /kaggle/input/dataset/valid
+
+nc: 3
+names: ['crack', 'damaged roof', 'damaged paint']
+
+roboflow:
+  workspace: university-bswxt
+  project: crack-bphdr
+  version: 2
+  license: Public Domain
+  url: https://universe.roboflow.com/university-bswxt/crack-bphdr/dataset/2

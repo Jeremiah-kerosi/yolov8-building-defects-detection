@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Object Detection</title>
+<!--    <link rel="stylesheet" type="text/css" href="/static/css/style.css">-->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to preview image, enable predict button, and show original image title
+            $("#file").change(function() {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#image_preview').attr('src', e.target.result).show();
+                    $('#predict_button').prop('disabled', false);
+                    $('#original_image_title').show();
+                    $('#image_preview_container').show();
+                    $('.main-container').show();
+                };
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            // Function to send image data to Flask endpoint for prediction
+            $("#predict_button").click(function(e) {
+                e.preventDefault();
+                var formData = new FormData();
+                formData.append('image', $('#file')[0].files[0]);
+
+                $.ajax({
+                    url: "/predict",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
+                        var img = new Image();
+                        img.src = 'data:image/jpeg;base64,' + data.image_data;
+                        img.style.width = data.width + 'px';
+                        img.style.height = data.height + 'px';
+                        $('#predicted_image').empty().append(img);
+                        $('#predicted_image_container').show();
+                        $('#predicted_image_title').show();
+                        $('#detected_class').show();
+                        $('#detected_class_name').text(data.final_class);
+                        $('#predicted_image_container').show();
+                        $('#predicted_image_title').show();
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<!-- SSD Description Section -->
+<div class="ssd-description">
+    <h2>About SSD (Single Shot MultiBox Detector)</h2>
+    <p>
+        SSD is an efficient and fast algorithm for object detection. It operates in a single shot to detect multiple objects within an image,
+        making it suitable for real-time processing. Unlike traditional two-stage detectors, SSD simultaneously performs detection and
+        classification, speeding up the process and maintaining high accuracy.
+    </p>
+</div>
+
+<!-- Image Upload Form -->
+<form id="uploadimage" method="post" enctype="multipart/form-data" class="text-center">
+    <div class="form-group">
+        <label for="file" class="btn btn-primary">Upload an Image to Detect Objects...</label>
+        <input type="file" name="image" id="file" required hidden/>
+    </div>
+</form>
+
+<!-- Main container for image display -->
+<div class="main-container" style="display: none;">
+    <div>
+        <h3 id="original_image_title" class="image-titles">Uploaded Image</h3>
+        <div id="image_preview_container" class="flex-container">
+            <img id="image_preview" class="flex-image"/>
+        </div>
+    </div>
+
+    <div>
+        <h3 id="predicted_image_title" class="image-titles" style="display: none;">Object Detection</h3>
+        <div id="predicted_image_container" class="flex-container" style="display: none;">
+            <div id="predicted_image" class="flex-image"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Predict Button -->
+<div style="text-align: center; position: fixed; left: 50%; transform: translateX(-50%); bottom: 20px; width: 100%;">
+    <input type="button" value="Predict" id="predict_button" class="btn btn-primary" disabled/>
+</div>
+
+<!-- Section to display the final detected class name -->
+<div id="detected_class" style="display: none;">
+    <h4>Detected Class: <span id="detected_class_name"></span></h4>
+</div>
+</body>
+</html>

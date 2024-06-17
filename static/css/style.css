@@ -1,0 +1,44 @@
+/* styles.css content */
+#detected_class {
+    text-align: center;
+}
+body {
+    background: lightskyblue url('https://i.pinimg.com/originals/3c/24/46/3c24462450c2a902bf7e18f3d9aada81.jpg');
+	color: #fff;
+}
+
+.yolo-description {
+    text-align: center;
+    text-color: #fff;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: auto;
+}
+
+.flex-container {
+    max-width: 500px;
+    max-height: 500px;
+    overflow: hidden;
+}
+
+.flex-image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+.image-titles {
+    text-align: center;
+}
+
+
