@@ -8,7 +8,6 @@ This project is a web application that uses the YOLOv8 model to detect defects i
 * [Project Structure](#project-structure)
 * [Endpoints](#endpoints)
 * [Model Details](#model-details)
-* [Contributing](#contributing)
 
 ## Installation
 
